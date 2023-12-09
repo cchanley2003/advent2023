@@ -44,8 +44,7 @@ defmodule Day7 do
   def compare_hands(hand1, hand2), do: do_compare(String.graphemes(hand1), String.graphemes(hand2))
 
   defp do_compare([], []), do: true
-  defp do_compare([], _), do: :second_higher
-  defp do_compare(_, []), do: :first_higher
+ 
 
   defp do_compare([c1 | rest1], [c2 | rest2]) do
     cond do
