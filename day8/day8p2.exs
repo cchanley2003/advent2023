@@ -35,14 +35,6 @@ defmodule Day8p2 do
       )
       |> IO.inspect()
 
-    zels =
-      tree_map
-      |> Map.keys()
-      |> Enum.filter(fn el ->
-        String.ends_with?(el, "Z")
-      end)
-      |> IO.inspect()
-
     aels =
       tree_map
       |> Map.keys()
@@ -55,7 +47,7 @@ defmodule Day8p2 do
       tree_map
       |> Map.keys()
       |> Enum.map(fn el ->
-        {el, walk(el, zels, cmds, tree_map)}
+        {el, walk(el, cmds, tree_map)}
       end)
       |> Enum.reduce(%{}, fn {el, l}, acc ->
         Map.put(acc, el, l)
@@ -86,6 +78,7 @@ defmodule Day8p2 do
     if String.ends_with?(el, "Z") do
       sum
     else
+      # We grab the last element of the list which is either a Z or the next seg
       {n, steps} = segs[el]
       |> Enum.reverse()
       |> hd()
@@ -93,11 +86,11 @@ defmodule Day8p2 do
     end
   end
 
-  def walk(el, zs, cmds, tree), do: walk(el, zs, cmds, tree, 0, [])
+  def walk(el, cmds, tree), do: walk(el, cmds, tree, 0, [])
 
-  def walk(el, zs, [], _, count, acc), do: [{el, count} | acc]
+  def walk(el, [], _, count, acc), do: [{el, count} | acc]
 
-  def walk(el, zs, [cmd | cmds], tree, count, acc) do
+  def walk(el, [cmd | cmds], tree, count, acc) do
     with_z =
       if(String.ends_with?(el, "Z") and count != 0) do
         [{el, count} | acc]
@@ -114,7 +107,7 @@ defmodule Day8p2 do
         elem(t, 1)
       end
 
-    walk(n, zs, cmds, tree, count + 1, with_z)
+    walk(n, cmds, tree, count + 1, with_z)
   end
 end
 
