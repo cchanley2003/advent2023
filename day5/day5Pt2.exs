@@ -103,7 +103,7 @@ defmodule Day5Pt2 do
         # IO.inspect("Range ends in")
         [{start, s-1}, {s , stop }]
       start > s and start <= e and stop > e ->
-        # IO.inspect("Range stars in")
+        # IO.inspect("Range starts in")
         [{start, e}, {e + 1, stop}]
       true ->
         # IO.inspect("Range is disjoint")
