@@ -21,6 +21,7 @@ defmodule Day12 do
       sum_options(question_locs, pound_locs, length, goal)
       |> IO.inspect()
     end)
+    |> dbg()
     |> Enum.sum()
     |> IO.inspect()
     # {question_locs, pound_locs, length, goal} = hd(l)

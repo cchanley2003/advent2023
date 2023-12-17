@@ -1,117 +1,442 @@
-[day12p22.exs:29: Day12.__search_memoize/2]
-goals #=> [1, 6, 5]
+[day12b.exs:72: Day12.__sum_options_memoize/3]
+ranges #=> [{11, 12}]
 
-[day12p22.exs:30: Day12.__search_memoize/2]
-adjust_list #=> ["?", "?", "?", "?", ".", "#", "#", "#", "#", "#", "#", ".", ".", "#", "#", "#",
- "#", "#", "."]
+[day12b.exs:73: Day12.__sum_options_memoize/3]
+delta #=> 2
 
-[day12p22.exs:35: Day12.__search_memoize/2]
-search_current(adjust_list, g, false) #=> [
-  {["?", "?", "?", ".", "#", "#", "#", "#", "#", "#", ".", ".", "#", "#", "#",
-    "#", "#", "."], true},
-  {["?", "?", ".", "#", "#", "#", "#", "#", "#", ".", ".", "#", "#", "#", "#",
-    "#", "."], true},
-  {["?", ".", "#", "#", "#", "#", "#", "#", ".", ".", "#", "#", "#", "#", "#",
-    "."], true},
-  {[".", "#", "#", "#", "#", "#", "#", ".", ".", "#", "#", "#", "#", "#", "."],
-   true},
-  {[], false}
-]
-|> Enum.filter(fn {_, x} -> x end) #=> [
-  {["?", "?", "?", ".", "#", "#", "#", "#", "#", "#", ".", ".", "#", "#", "#",
-    "#", "#", "."], true},
-  {["?", "?", ".", "#", "#", "#", "#", "#", "#", ".", ".", "#", "#", "#", "#",
-    "#", "."], true},
-  {["?", ".", "#", "#", "#", "#", "#", "#", ".", ".", "#", "#", "#", "#", "#",
-    "."], true},
-  {[".", "#", "#", "#", "#", "#", "#", ".", ".", "#", "#", "#", "#", "#", "."],
-   true}
-]
-|> Enum.map(fn {x, _} -> x end) #=> [
-  ["?", "?", "?", ".", "#", "#", "#", "#", "#", "#", ".", ".", "#", "#", "#",
-   "#", "#", "."],
-  ["?", "?", ".", "#", "#", "#", "#", "#", "#", ".", ".", "#", "#", "#", "#",
-   "#", "."],
-  ["?", ".", "#", "#", "#", "#", "#", "#", ".", ".", "#", "#", "#", "#", "#",
-   "."],
-  [".", "#", "#", "#", "#", "#", "#", ".", ".", "#", "#", "#", "#", "#", "."]
-]
-|> Enum.uniq() #=> [
-  ["?", "?", "?", ".", "#", "#", "#", "#", "#", "#", ".", ".", "#", "#", "#",
-   "#", "#", "."],
-  ["?", "?", ".", "#", "#", "#", "#", "#", "#", ".", ".", "#", "#", "#", "#",
-   "#", "."],
-  ["?", ".", "#", "#", "#", "#", "#", "#", ".", ".", "#", "#", "#", "#", "#",
-   "."],
-  [".", "#", "#", "#", "#", "#", "#", ".", ".", "#", "#", "#", "#", "#", "."]
-]
+[day12b.exs:74: Day12.__sum_options_memoize/3]
+loc #=> 1
 
-[day12p22.exs:29: Day12.__search_memoize/2]
-goals #=> [6, 5]
+[day12b.exs:75: Day12.__sum_options_memoize/3]
+tail #=> [2, 5, 6, 10]
 
-[day12p22.exs:30: Day12.__search_memoize/2]
-adjust_list #=> ["?", "?", ".", "#", "#", "#", "#", "#", "#", ".", ".", "#", "#", "#", "#", "#",
- "."]
+[day12b.exs:76: Day12.__sum_options_memoize/3]
+goal #=> [1, 1, 3]
 
-[day12p22.exs:35: Day12.__search_memoize/2]
-search_current(adjust_list, g, false) #=> [
-  {[], false},
-  {[], false},
-  {[], false},
-  {[".", ".", "#", "#", "#", "#", "#", "."], true}
-]
-|> Enum.filter(fn {_, x} -> x end) #=> [{[".", ".", "#", "#", "#", "#", "#", "."], true}]
-|> Enum.map(fn {x, _} -> x end) #=> [[".", ".", "#", "#", "#", "#", "#", "."]]
-|> Enum.uniq() #=> [[".", ".", "#", "#", "#", "#", "#", "."]]
+[day12b.exs:72: Day12.__sum_options_memoize/3]
+ranges #=> [{1, 1}, {11, 12}]
 
-[day12p22.exs:29: Day12.__search_memoize/2]
-goals #=> [5]
+[day12b.exs:73: Day12.__sum_options_memoize/3]
+delta #=> 1
 
-[day12p22.exs:30: Day12.__search_memoize/2]
-adjust_list #=> ["#", "#", "#", "#", "#", "."]
+[day12b.exs:74: Day12.__sum_options_memoize/3]
+loc #=> 2
 
-[day12p22.exs:35: Day12.__search_memoize/2]
-search_current(adjust_list, g, false) #=> [{["."], true}]
-|> Enum.filter(fn {_, x} -> x end) #=> [{["."], true}]
-|> Enum.map(fn {x, _} -> x end) #=> [["."]]
-|> Enum.uniq() #=> [["."]]
+[day12b.exs:75: Day12.__sum_options_memoize/3]
+tail #=> [5, 6, 10]
 
-[day12p22.exs:29: Day12.__search_memoize/2]
-goals #=> [6, 5]
+[day12b.exs:76: Day12.__sum_options_memoize/3]
+goal #=> [1, 1, 3]
 
-[day12p22.exs:30: Day12.__search_memoize/2]
-adjust_list #=> ["?", ".", "#", "#", "#", "#", "#", "#", ".", ".", "#", "#", "#", "#", "#", "."]
+[day12b.exs:72: Day12.__sum_options_memoize/3]
+ranges #=> [{11, 12}]
 
-[day12p22.exs:35: Day12.__search_memoize/2]
-search_current(adjust_list, g, false) #=> [{[], false}, {[".", ".", "#", "#", "#", "#", "#", "."], true}]
-|> Enum.filter(fn {_, x} -> x end) #=> [{[".", ".", "#", "#", "#", "#", "#", "."], true}]
-|> Enum.map(fn {x, _} -> x end) #=> [[".", ".", "#", "#", "#", "#", "#", "."]]
-|> Enum.uniq() #=> [[".", ".", "#", "#", "#", "#", "#", "."]]
+[day12b.exs:73: Day12.__sum_options_memoize/3]
+delta #=> 2
 
-[day12p22.exs:29: Day12.__search_memoize/2]
-goals #=> [6, 5]
+[day12b.exs:74: Day12.__sum_options_memoize/3]
+loc #=> 2
 
-[day12p22.exs:30: Day12.__search_memoize/2]
-adjust_list #=> ["#", "#", "#", "#", "#", "#", ".", ".", "#", "#", "#", "#", "#", "."]
+[day12b.exs:75: Day12.__sum_options_memoize/3]
+tail #=> [5, 6, 10]
 
-[day12p22.exs:35: Day12.__search_memoize/2]
-search_current(adjust_list, g, false) #=> [{[".", ".", "#", "#", "#", "#", "#", "."], true}]
-|> Enum.filter(fn {_, x} -> x end) #=> [{[".", ".", "#", "#", "#", "#", "#", "."], true}]
-|> Enum.map(fn {x, _} -> x end) #=> [[".", ".", "#", "#", "#", "#", "#", "."]]
-|> Enum.uniq() #=> [[".", ".", "#", "#", "#", "#", "#", "."]]
+[day12b.exs:76: Day12.__sum_options_memoize/3]
+goal #=> [1, 3]
 
-[day12p22.exs:29: Day12.__search_memoize/2]
-goals #=> [6, 5]
+[day12b.exs:72: Day12.__sum_options_memoize/3]
+ranges #=> [{2, 2}, {11, 12}]
 
-[day12p22.exs:30: Day12.__search_memoize/2]
-adjust_list #=> ["#", "#", "#", "#", "#", "#", ".", ".", "#", "#", "#", "#", "#", "."]
+[day12b.exs:73: Day12.__sum_options_memoize/3]
+delta #=> 1
 
-[day12p22.exs:35: Day12.__search_memoize/2]
-search_current(adjust_list, g, false) #=> [{[".", ".", "#", "#", "#", "#", "#", "."], true}]
-|> Enum.filter(fn {_, x} -> x end) #=> [{[".", ".", "#", "#", "#", "#", "#", "."], true}]
-|> Enum.map(fn {x, _} -> x end) #=> [[".", ".", "#", "#", "#", "#", "#", "."]]
-|> Enum.uniq() #=> [[".", ".", "#", "#", "#", "#", "#", "."]]
+[day12b.exs:74: Day12.__sum_options_memoize/3]
+loc #=> 5
 
-[day12p22.exs:69: (file)]
-Day12.search(String.graphemes(line), [1, 6, 5]) #=> 4
+[day12b.exs:75: Day12.__sum_options_memoize/3]
+tail #=> [6, 10]
 
+[day12b.exs:76: Day12.__sum_options_memoize/3]
+goal #=> [1, 3]
+
+[day12b.exs:72: Day12.__sum_options_memoize/3]
+ranges #=> [{11, 12}]
+
+[day12b.exs:73: Day12.__sum_options_memoize/3]
+delta #=> 2
+
+[day12b.exs:74: Day12.__sum_options_memoize/3]
+loc #=> 5
+
+[day12b.exs:75: Day12.__sum_options_memoize/3]
+tail #=> [6, 10]
+
+[day12b.exs:76: Day12.__sum_options_memoize/3]
+goal #=> [3]
+
+[day12b.exs:72: Day12.__sum_options_memoize/3]
+ranges #=> [{5, 5}, {11, 12}]
+
+[day12b.exs:73: Day12.__sum_options_memoize/3]
+delta #=> 1
+
+[day12b.exs:74: Day12.__sum_options_memoize/3]
+loc #=> 6
+
+[day12b.exs:75: Day12.__sum_options_memoize/3]
+tail #=> ~c"\n"
+
+[day12b.exs:76: Day12.__sum_options_memoize/3]
+goal #=> [3]
+
+[day12b.exs:72: Day12.__sum_options_memoize/3]
+ranges #=> [{5, 6}, {11, 12}]
+
+[day12b.exs:73: Day12.__sum_options_memoize/3]
+delta #=> 2
+
+[day12b.exs:74: Day12.__sum_options_memoize/3]
+loc #=> 10
+
+[day12b.exs:75: Day12.__sum_options_memoize/3]
+tail #=> []
+
+[day12b.exs:76: Day12.__sum_options_memoize/3]
+goal #=> [3]
+
+Checking remainder
+[day12b.exs:50: Day12.__sum_options_memoize/3]
+ranges #=> [{5, 6}, {10, 12}]
+
+[day12b.exs:51: Day12.__sum_options_memoize/3]
+goal #=> [3]
+
+Length mismatch
+Checking remainder
+[day12b.exs:50: Day12.__sum_options_memoize/3]
+ranges #=> [{5, 6}, {11, 12}]
+
+[day12b.exs:51: Day12.__sum_options_memoize/3]
+goal #=> [3]
+
+Length mismatch
+[day12b.exs:72: Day12.__sum_options_memoize/3]
+ranges #=> [{5, 5}, {11, 12}]
+
+[day12b.exs:73: Day12.__sum_options_memoize/3]
+delta #=> 1
+
+[day12b.exs:74: Day12.__sum_options_memoize/3]
+loc #=> 10
+
+[day12b.exs:75: Day12.__sum_options_memoize/3]
+tail #=> []
+
+[day12b.exs:76: Day12.__sum_options_memoize/3]
+goal #=> [3]
+
+Checking remainder
+[day12b.exs:50: Day12.__sum_options_memoize/3]
+ranges #=> [{5, 5}, {10, 12}]
+
+[day12b.exs:51: Day12.__sum_options_memoize/3]
+goal #=> [3]
+
+Length mismatch
+Checking remainder
+[day12b.exs:50: Day12.__sum_options_memoize/3]
+ranges #=> [{5, 5}, {11, 12}]
+
+[day12b.exs:51: Day12.__sum_options_memoize/3]
+goal #=> [3]
+
+Length mismatch
+[day12b.exs:72: Day12.__sum_options_memoize/3]
+ranges #=> [{11, 12}]
+
+[day12b.exs:73: Day12.__sum_options_memoize/3]
+delta #=> 2
+
+[day12b.exs:74: Day12.__sum_options_memoize/3]
+loc #=> 6
+
+[day12b.exs:75: Day12.__sum_options_memoize/3]
+tail #=> ~c"\n"
+
+[day12b.exs:76: Day12.__sum_options_memoize/3]
+goal #=> [3]
+
+[day12b.exs:72: Day12.__sum_options_memoize/3]
+ranges #=> [{6, 6}, {11, 12}]
+
+[day12b.exs:73: Day12.__sum_options_memoize/3]
+delta #=> 1
+
+[day12b.exs:74: Day12.__sum_options_memoize/3]
+loc #=> 10
+
+[day12b.exs:75: Day12.__sum_options_memoize/3]
+tail #=> []
+
+[day12b.exs:76: Day12.__sum_options_memoize/3]
+goal #=> [3]
+
+Checking remainder
+[day12b.exs:50: Day12.__sum_options_memoize/3]
+ranges #=> [{6, 6}, {10, 12}]
+
+[day12b.exs:51: Day12.__sum_options_memoize/3]
+goal #=> [3]
+
+Length mismatch
+Checking remainder
+[day12b.exs:50: Day12.__sum_options_memoize/3]
+ranges #=> [{6, 6}, {11, 12}]
+
+[day12b.exs:51: Day12.__sum_options_memoize/3]
+goal #=> [3]
+
+Length mismatch
+[day12b.exs:72: Day12.__sum_options_memoize/3]
+ranges #=> [{11, 12}]
+
+[day12b.exs:73: Day12.__sum_options_memoize/3]
+delta #=> 2
+
+[day12b.exs:74: Day12.__sum_options_memoize/3]
+loc #=> 10
+
+[day12b.exs:75: Day12.__sum_options_memoize/3]
+tail #=> []
+
+[day12b.exs:76: Day12.__sum_options_memoize/3]
+goal #=> [3]
+
+Checking remainder
+[day12b.exs:50: Day12.__sum_options_memoize/3]
+ranges #=> [{10, 12}]
+
+[day12b.exs:51: Day12.__sum_options_memoize/3]
+goal #=> [3]
+
+Found a match
+Checking remainder
+[day12b.exs:50: Day12.__sum_options_memoize/3]
+ranges #=> [{11, 12}]
+
+[day12b.exs:51: Day12.__sum_options_memoize/3]
+goal #=> [3]
+
+No match
+[day12b.exs:72: Day12.__sum_options_memoize/3]
+ranges #=> [{11, 12}]
+
+[day12b.exs:73: Day12.__sum_options_memoize/3]
+delta #=> 2
+
+[day12b.exs:74: Day12.__sum_options_memoize/3]
+loc #=> 5
+
+[day12b.exs:75: Day12.__sum_options_memoize/3]
+tail #=> [6, 10]
+
+[day12b.exs:76: Day12.__sum_options_memoize/3]
+goal #=> [1, 3]
+
+[day12b.exs:72: Day12.__sum_options_memoize/3]
+ranges #=> [{5, 5}, {11, 12}]
+
+[day12b.exs:73: Day12.__sum_options_memoize/3]
+delta #=> 1
+
+[day12b.exs:74: Day12.__sum_options_memoize/3]
+loc #=> 6
+
+[day12b.exs:75: Day12.__sum_options_memoize/3]
+tail #=> ~c"\n"
+
+[day12b.exs:76: Day12.__sum_options_memoize/3]
+goal #=> [1, 3]
+
+[day12b.exs:72: Day12.__sum_options_memoize/3]
+ranges #=> [{11, 12}]
+
+[day12b.exs:73: Day12.__sum_options_memoize/3]
+delta #=> 2
+
+[day12b.exs:74: Day12.__sum_options_memoize/3]
+loc #=> 6
+
+[day12b.exs:75: Day12.__sum_options_memoize/3]
+tail #=> ~c"\n"
+
+[day12b.exs:76: Day12.__sum_options_memoize/3]
+goal #=> [1, 3]
+
+[day12b.exs:72: Day12.__sum_options_memoize/3]
+ranges #=> [{6, 6}, {11, 12}]
+
+[day12b.exs:73: Day12.__sum_options_memoize/3]
+delta #=> 1
+
+[day12b.exs:74: Day12.__sum_options_memoize/3]
+loc #=> 10
+
+[day12b.exs:75: Day12.__sum_options_memoize/3]
+tail #=> []
+
+[day12b.exs:76: Day12.__sum_options_memoize/3]
+goal #=> [1, 3]
+
+[day12b.exs:72: Day12.__sum_options_memoize/3]
+ranges #=> [{11, 12}]
+
+[day12b.exs:73: Day12.__sum_options_memoize/3]
+delta #=> 2
+
+[day12b.exs:74: Day12.__sum_options_memoize/3]
+loc #=> 10
+
+[day12b.exs:75: Day12.__sum_options_memoize/3]
+tail #=> []
+
+[day12b.exs:76: Day12.__sum_options_memoize/3]
+goal #=> [1, 3]
+
+Checking remainder
+[day12b.exs:50: Day12.__sum_options_memoize/3]
+ranges #=> [{10, 12}]
+
+[day12b.exs:51: Day12.__sum_options_memoize/3]
+goal #=> [1, 3]
+
+Length mismatch
+Checking remainder
+[day12b.exs:50: Day12.__sum_options_memoize/3]
+ranges #=> [{11, 12}]
+
+[day12b.exs:51: Day12.__sum_options_memoize/3]
+goal #=> [1, 3]
+
+Length mismatch
+[day12b.exs:72: Day12.__sum_options_memoize/3]
+ranges #=> [{11, 12}]
+
+[day12b.exs:73: Day12.__sum_options_memoize/3]
+delta #=> 2
+
+[day12b.exs:74: Day12.__sum_options_memoize/3]
+loc #=> 2
+
+[day12b.exs:75: Day12.__sum_options_memoize/3]
+tail #=> [5, 6, 10]
+
+[day12b.exs:76: Day12.__sum_options_memoize/3]
+goal #=> [1, 1, 3]
+
+[day12b.exs:72: Day12.__sum_options_memoize/3]
+ranges #=> [{2, 2}, {11, 12}]
+
+[day12b.exs:73: Day12.__sum_options_memoize/3]
+delta #=> 1
+
+[day12b.exs:74: Day12.__sum_options_memoize/3]
+loc #=> 5
+
+[day12b.exs:75: Day12.__sum_options_memoize/3]
+tail #=> [6, 10]
+
+[day12b.exs:76: Day12.__sum_options_memoize/3]
+goal #=> [1, 1, 3]
+
+[day12b.exs:72: Day12.__sum_options_memoize/3]
+ranges #=> [{11, 12}]
+
+[day12b.exs:73: Day12.__sum_options_memoize/3]
+delta #=> 2
+
+[day12b.exs:74: Day12.__sum_options_memoize/3]
+loc #=> 5
+
+[day12b.exs:75: Day12.__sum_options_memoize/3]
+tail #=> [6, 10]
+
+[day12b.exs:76: Day12.__sum_options_memoize/3]
+goal #=> [1, 1, 3]
+
+[day12b.exs:72: Day12.__sum_options_memoize/3]
+ranges #=> [{5, 5}, {11, 12}]
+
+[day12b.exs:73: Day12.__sum_options_memoize/3]
+delta #=> 1
+
+[day12b.exs:74: Day12.__sum_options_memoize/3]
+loc #=> 6
+
+[day12b.exs:75: Day12.__sum_options_memoize/3]
+tail #=> ~c"\n"
+
+[day12b.exs:76: Day12.__sum_options_memoize/3]
+goal #=> [1, 1, 3]
+
+[day12b.exs:72: Day12.__sum_options_memoize/3]
+ranges #=> [{11, 12}]
+
+[day12b.exs:73: Day12.__sum_options_memoize/3]
+delta #=> 2
+
+[day12b.exs:74: Day12.__sum_options_memoize/3]
+loc #=> 6
+
+[day12b.exs:75: Day12.__sum_options_memoize/3]
+tail #=> ~c"\n"
+
+[day12b.exs:76: Day12.__sum_options_memoize/3]
+goal #=> [1, 1, 3]
+
+[day12b.exs:72: Day12.__sum_options_memoize/3]
+ranges #=> [{6, 6}, {11, 12}]
+
+[day12b.exs:73: Day12.__sum_options_memoize/3]
+delta #=> 1
+
+[day12b.exs:74: Day12.__sum_options_memoize/3]
+loc #=> 10
+
+[day12b.exs:75: Day12.__sum_options_memoize/3]
+tail #=> []
+
+[day12b.exs:76: Day12.__sum_options_memoize/3]
+goal #=> [1, 1, 3]
+
+[day12b.exs:72: Day12.__sum_options_memoize/3]
+ranges #=> [{11, 12}]
+
+[day12b.exs:73: Day12.__sum_options_memoize/3]
+delta #=> 2
+
+[day12b.exs:74: Day12.__sum_options_memoize/3]
+loc #=> 10
+
+[day12b.exs:75: Day12.__sum_options_memoize/3]
+tail #=> []
+
+[day12b.exs:76: Day12.__sum_options_memoize/3]
+goal #=> [1, 1, 3]
+
+Checking remainder
+[day12b.exs:50: Day12.__sum_options_memoize/3]
+ranges #=> [{10, 12}]
+
+[day12b.exs:51: Day12.__sum_options_memoize/3]
+goal #=> [1, 1, 3]
+
+Length mismatch
+Checking remainder
+[day12b.exs:50: Day12.__sum_options_memoize/3]
+ranges #=> [{11, 12}]
+
+[day12b.exs:51: Day12.__sum_options_memoize/3]
+goal #=> [1, 1, 3]
+
+Length mismatch
+6

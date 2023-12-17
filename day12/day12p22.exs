@@ -24,14 +24,21 @@ defmodule Day12 do
   end
 
   defmemo search(list, [g | rest] = goals)  do
+    dbg(list)
+    dbg(g)
     adjust_list = Enum.drop_while(list, fn x -> x == "." end)
     downstream  = search_current(adjust_list, g, false)
     |> Enum.filter(fn {_, x} -> x end)
     |> Enum.map(fn {x, _} -> x end)
     |> Enum.uniq()
+    |> IO.inspect()
 
     if rest == [] do
-      length(downstream)
+      downstream
+      |> dbg()
+      |> Enum.filter( fn l -> not(Enum.any?(l, fn x -> x == "#" end)) end)
+      |> dbg()
+      |> length()
     else
       Enum.reduce(downstream, 0, fn l, acc -> acc +
       search(Enum.drop(l, 1), rest) end)
@@ -58,11 +65,11 @@ defmodule Day12 do
   end
 end
 
-Day12.process_file("sample.txt")
+# Day12.process_file("real.txt")
 
-# line = "????.######..#####."
-# Day12.search(String.graphemes(line), [1, 6, 5])
-# |> dbg()
+line = ".???#????#?????#?#?"
+Day12.search(String.graphemes(line), [1, 9, 4])
+|> dbg()
 
 
 # line = String.graphemes(".??..??...?##.")
