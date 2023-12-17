@@ -16,23 +16,19 @@ defmodule Day12 do
       |> Enum.map(fn l -> String.to_integer(hd(l)) end)
       {pattern, goal}
     end)
-    |> dbg()
     |> Enum.map(fn {pattern, goal} ->
       search(String.graphemes(pattern), goal)
     end)
-    |> dbg()
-
+    |> Enum.sum()
+    |> IO.inspect()
   end
 
   defmemo search(list, [g | rest] = goals)  do
     adjust_list = Enum.drop_while(list, fn x -> x == "." end)
-    dbg(goals)
-    dbg(adjust_list)
-    downstream  = search_current(adjust_list, g)
+    downstream  = search_current(adjust_list, g, false)
     |> Enum.filter(fn {_, x} -> x end)
     |> Enum.map(fn {x, _} -> x end)
     |> Enum.uniq()
-    |> dbg()
 
     if rest == [] do
       length(downstream)
@@ -43,29 +39,30 @@ defmodule Day12 do
   end
 
 
-  defmemo search_current(list, goal), do: search_current(list, goal, [])
-  defmemo search_current([el | _], 0, _) when el == "#", do: [{[], false}]
-  defmemo search_current(rest, 0, acc), do: [ {rest, true} | acc ]
-  defmemo search_current([], _, _), do: [{[], false}]
-  defmemo search_current([el | _], _, _) when el == ".", do: [{[], false}]
+  defmemo search_current(list, goal, changed), do: search_current(list, goal, [], changed)
+  defmemo search_current([el | _], 0, _,  _) when el == "#", do: [{[], false}]
+  defmemo search_current(rest, 0, acc, _), do: [ {rest, true} | acc ]
+  defmemo search_current([], _, _, _), do: [{[], false}]
 
-  defmemo search_current([el | rest], goal, acc) do
+  defmemo search_current([el | rest], goal, acc, changed) do
     cond do
       el == "#" ->
-        search_current(rest, goal - 1) ++ acc
+        search_current(rest, goal - 1, true) ++ acc
       el == "?" ->
-        search_current(rest, goal - 1) ++ search_current(rest, goal) ++ acc
+        search_current(rest, goal - 1, true) ++ search_current(rest, goal, changed) ++ acc
+      el == "." and not(changed) ->
+        search_current(rest, goal, changed) ++ acc
       true ->
         [{[], false}]
     end
   end
 end
 
-# Day12.process_file("sample.txt")
+Day12.process_file("sample.txt")
 
-line = "????.######..#####."
-Day12.search(String.graphemes(line), [1, 6, 5])
-|> dbg()
+# line = "????.######..#####."
+# Day12.search(String.graphemes(line), [1, 6, 5])
+# |> dbg()
 
 
 # line = String.graphemes(".??..??...?##.")

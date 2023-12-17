@@ -1,4 +1,8 @@
+Mix.install([:memoize])
+
 defmodule Day12 do
+  use Memoize
+
   def run(path) do
     l = File.stream!(path)
     |> Enum.map(&String.trim/1)
@@ -34,15 +38,15 @@ defmodule Day12 do
 
   end
 
-  def sum_options(question_locs, ranges, length, goal), do: sum_options(question_locs, ranges, length, goal, 0)
-  def sum_options([], ranges, _, goal, acc) do
+  defmemo sum_options(question_locs, ranges, length, goal), do: sum_options(question_locs, ranges, length, goal, 0)
+  defmemo sum_options([], ranges, _, goal, acc) do
     cond do
       target_met(ranges, goal) -> acc + 1
       true -> acc
     end
   end
 
-  def sum_options([loc | tail] = questions, ranges, length, goal, acc) do
+  defmemo sum_options([loc | tail] = questions, ranges, length, goal, acc) do
     cond do
       target_met(ranges, goal) ->
         acc + 1
@@ -56,7 +60,7 @@ defmodule Day12 do
     end
   end
 
-  def target_met(ranges, goal) do
+  defmemo target_met(ranges, goal) do
     cond do
       length(goal) != length(ranges) ->
         false
@@ -67,7 +71,7 @@ defmodule Day12 do
     end
   end
 
-  def can_achieve(loc, length, ranges, goal) do
+  defmemo can_achieve(loc, length, ranges, goal) do
     remain = length - (loc  + 1)
     goal_length = Enum.sum(goal)
     so_far = Enum.map(ranges, fn {start, stop} -> stop - start + 1 end) |> Enum.sum()
@@ -79,8 +83,8 @@ defmodule Day12 do
     end
   end
 
-  def check_ranges([], goal), do: true
-  def check_ranges(ranges, goal) do
+  defmemo check_ranges([], goal), do: true
+  defmemo check_ranges(ranges, goal) do
     sum = Enum.sum(goal)
     range_deltas = ranges
     |> Enum.map(fn {start, stop} -> stop - start + 1 end)
@@ -96,7 +100,7 @@ defmodule Day12 do
     end
   end
 
-  def merge_ranges(ranges) do
+  defmemo merge_ranges(ranges) do
     ranges
     |> Enum.sort()
     |> Enum.reduce([], fn {start, stop}, acc ->

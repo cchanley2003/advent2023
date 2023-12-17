@@ -6,7 +6,7 @@ adjust_list #=> ["?", "?", "?", "?", ".", "#", "#", "#", "#", "#", "#", ".", "."
  "#", "#", "."]
 
 [day12p22.exs:35: Day12.__search_memoize/2]
-search_current(adjust_list, g) #=> [
+search_current(adjust_list, g, false) #=> [
   {["?", "?", "?", ".", "#", "#", "#", "#", "#", "#", ".", ".", "#", "#", "#",
     "#", "#", "."], true},
   {["?", "?", ".", "#", "#", "#", "#", "#", "#", ".", ".", "#", "#", "#", "#",
@@ -54,31 +54,12 @@ adjust_list #=> ["?", "?", ".", "#", "#", "#", "#", "#", "#", ".", ".", "#", "#"
  "."]
 
 [day12p22.exs:35: Day12.__search_memoize/2]
-search_current(adjust_list, g) #=> [{[], false}, {[], false}, {[], false}, {[], false}]
-|> Enum.filter(fn {_, x} -> x end) #=> []
-|> Enum.map(fn {x, _} -> x end) #=> []
-|> Enum.uniq() #=> []
-
-[day12p22.exs:29: Day12.__search_memoize/2]
-goals #=> [6, 5]
-
-[day12p22.exs:30: Day12.__search_memoize/2]
-adjust_list #=> ["?", ".", "#", "#", "#", "#", "#", "#", ".", ".", "#", "#", "#", "#", "#", "."]
-
-[day12p22.exs:35: Day12.__search_memoize/2]
-search_current(adjust_list, g) #=> [{[], false}, {[], false}]
-|> Enum.filter(fn {_, x} -> x end) #=> []
-|> Enum.map(fn {x, _} -> x end) #=> []
-|> Enum.uniq() #=> []
-
-[day12p22.exs:29: Day12.__search_memoize/2]
-goals #=> [6, 5]
-
-[day12p22.exs:30: Day12.__search_memoize/2]
-adjust_list #=> ["#", "#", "#", "#", "#", "#", ".", ".", "#", "#", "#", "#", "#", "."]
-
-[day12p22.exs:35: Day12.__search_memoize/2]
-search_current(adjust_list, g) #=> [{[".", ".", "#", "#", "#", "#", "#", "."], true}]
+search_current(adjust_list, g, false) #=> [
+  {[], false},
+  {[], false},
+  {[], false},
+  {[".", ".", "#", "#", "#", "#", "#", "."], true}
+]
 |> Enum.filter(fn {_, x} -> x end) #=> [{[".", ".", "#", "#", "#", "#", "#", "."], true}]
 |> Enum.map(fn {x, _} -> x end) #=> [[".", ".", "#", "#", "#", "#", "#", "."]]
 |> Enum.uniq() #=> [[".", ".", "#", "#", "#", "#", "#", "."]]
@@ -90,7 +71,7 @@ goals #=> [5]
 adjust_list #=> ["#", "#", "#", "#", "#", "."]
 
 [day12p22.exs:35: Day12.__search_memoize/2]
-search_current(adjust_list, g) #=> [{["."], true}]
+search_current(adjust_list, g, false) #=> [{["."], true}]
 |> Enum.filter(fn {_, x} -> x end) #=> [{["."], true}]
 |> Enum.map(fn {x, _} -> x end) #=> [["."]]
 |> Enum.uniq() #=> [["."]]
@@ -99,14 +80,38 @@ search_current(adjust_list, g) #=> [{["."], true}]
 goals #=> [6, 5]
 
 [day12p22.exs:30: Day12.__search_memoize/2]
-adjust_list #=> ["#", "#", "#", "#", "#", "#", ".", ".", "#", "#", "#", "#", "#", "."]
+adjust_list #=> ["?", ".", "#", "#", "#", "#", "#", "#", ".", ".", "#", "#", "#", "#", "#", "."]
 
 [day12p22.exs:35: Day12.__search_memoize/2]
-search_current(adjust_list, g) #=> [{[".", ".", "#", "#", "#", "#", "#", "."], true}]
+search_current(adjust_list, g, false) #=> [{[], false}, {[".", ".", "#", "#", "#", "#", "#", "."], true}]
 |> Enum.filter(fn {_, x} -> x end) #=> [{[".", ".", "#", "#", "#", "#", "#", "."], true}]
 |> Enum.map(fn {x, _} -> x end) #=> [[".", ".", "#", "#", "#", "#", "#", "."]]
 |> Enum.uniq() #=> [[".", ".", "#", "#", "#", "#", "#", "."]]
 
-[day12p22.exs:68: (file)]
-Day12.search(String.graphemes(line), [1, 6, 5]) #=> 2
+[day12p22.exs:29: Day12.__search_memoize/2]
+goals #=> [6, 5]
+
+[day12p22.exs:30: Day12.__search_memoize/2]
+adjust_list #=> ["#", "#", "#", "#", "#", "#", ".", ".", "#", "#", "#", "#", "#", "."]
+
+[day12p22.exs:35: Day12.__search_memoize/2]
+search_current(adjust_list, g, false) #=> [{[".", ".", "#", "#", "#", "#", "#", "."], true}]
+|> Enum.filter(fn {_, x} -> x end) #=> [{[".", ".", "#", "#", "#", "#", "#", "."], true}]
+|> Enum.map(fn {x, _} -> x end) #=> [[".", ".", "#", "#", "#", "#", "#", "."]]
+|> Enum.uniq() #=> [[".", ".", "#", "#", "#", "#", "#", "."]]
+
+[day12p22.exs:29: Day12.__search_memoize/2]
+goals #=> [6, 5]
+
+[day12p22.exs:30: Day12.__search_memoize/2]
+adjust_list #=> ["#", "#", "#", "#", "#", "#", ".", ".", "#", "#", "#", "#", "#", "."]
+
+[day12p22.exs:35: Day12.__search_memoize/2]
+search_current(adjust_list, g, false) #=> [{[".", ".", "#", "#", "#", "#", "#", "."], true}]
+|> Enum.filter(fn {_, x} -> x end) #=> [{[".", ".", "#", "#", "#", "#", "#", "."], true}]
+|> Enum.map(fn {x, _} -> x end) #=> [[".", ".", "#", "#", "#", "#", "#", "."]]
+|> Enum.uniq() #=> [[".", ".", "#", "#", "#", "#", "#", "."]]
+
+[day12p22.exs:69: (file)]
+Day12.search(String.graphemes(line), [1, 6, 5]) #=> 4
 
