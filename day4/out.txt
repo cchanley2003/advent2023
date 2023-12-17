@@ -1,0 +1,307 @@
+41 48 83 86 17
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 41
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 48
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 83
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 86
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 17
+
+[day4.exs:20: Day4Pt1.process_file/1]
+Regex.scan(~r/\d+/, part) #=> [["41"], ["48"], ["83"], ["86"], ["17"]]
+|> List.flatten() #=> ["41", "48", "83", "86", "17"]
+|> Enum.map(fn x -> String.to_integer(x) |> dbg() end) #=> [41, 48, 83, 86, 17]
+
+83 86  6 31 17  9 48 53
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 83
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 86
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 6
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 31
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 17
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 9
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 48
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 53
+
+[day4.exs:20: Day4Pt1.process_file/1]
+Regex.scan(~r/\d+/, part) #=> [["83"], ["86"], ["6"], ["31"], ["17"], ["9"], ["48"], ["53"]]
+|> List.flatten() #=> ["83", "86", "6", "31", "17", "9", "48", "53"]
+|> Enum.map(fn x -> String.to_integer(x) |> dbg() end) #=> [83, 86, 6, 31, 17, 9, 48, 53]
+
+13 32 20 16 61
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 13
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 32
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 20
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 16
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 61
+
+[day4.exs:20: Day4Pt1.process_file/1]
+Regex.scan(~r/\d+/, part) #=> [["13"], ["32"], ["20"], ["16"], ["61"]]
+|> List.flatten() #=> ["13", "32", "20", "16", "61"]
+|> Enum.map(fn x -> String.to_integer(x) |> dbg() end) #=> [13, 32, 20, 16, 61]
+
+61 30 68 82 17 32 24 19
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 61
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 30
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 68
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 82
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 17
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 32
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 24
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 19
+
+[day4.exs:20: Day4Pt1.process_file/1]
+Regex.scan(~r/\d+/, part) #=> [["61"], ["30"], ["68"], ["82"], ["17"], ["32"], ["24"], ["19"]]
+|> List.flatten() #=> ["61", "30", "68", "82", "17", "32", "24", "19"]
+|> Enum.map(fn x -> String.to_integer(x) |> dbg() end) #=> [61, 30, 68, 82, 17, 32, 24, 19]
+
+1 21 53 59 44
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 1
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 21
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 53
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 59
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 44
+
+[day4.exs:20: Day4Pt1.process_file/1]
+Regex.scan(~r/\d+/, part) #=> [["1"], ["21"], ["53"], ["59"], ["44"]]
+|> List.flatten() #=> ["1", "21", "53", "59", "44"]
+|> Enum.map(fn x -> String.to_integer(x) |> dbg() end) #=> [1, 21, 53, 59, 44]
+
+69 82 63 72 16 21 14 1
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 69
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 82
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 63
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 72
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 16
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 21
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 14
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 1
+
+[day4.exs:20: Day4Pt1.process_file/1]
+Regex.scan(~r/\d+/, part) #=> [["69"], ["82"], ["63"], ["72"], ["16"], ["21"], ["14"], ["1"]]
+|> List.flatten() #=> ["69", "82", "63", "72", "16", "21", "14", "1"]
+|> Enum.map(fn x -> String.to_integer(x) |> dbg() end) #=> [69, 82, 63, 72, 16, 21, 14, 1]
+
+41 92 73 84 69
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 41
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 92
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 73
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 84
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 69
+
+[day4.exs:20: Day4Pt1.process_file/1]
+Regex.scan(~r/\d+/, part) #=> [["41"], ["92"], ["73"], ["84"], ["69"]]
+|> List.flatten() #=> ["41", "92", "73", "84", "69"]
+|> Enum.map(fn x -> String.to_integer(x) |> dbg() end) #=> ~c")\\ITE"
+
+59 84 76 51 58 5 54 83
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 59
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 84
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 76
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 51
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 58
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 5
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 54
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 83
+
+[day4.exs:20: Day4Pt1.process_file/1]
+Regex.scan(~r/\d+/, part) #=> [["59"], ["84"], ["76"], ["51"], ["58"], ["5"], ["54"], ["83"]]
+|> List.flatten() #=> ["59", "84", "76", "51", "58", "5", "54", "83"]
+|> Enum.map(fn x -> String.to_integer(x) |> dbg() end) #=> [59, 84, 76, 51, 58, 5, 54, 83]
+
+87 83 26 28 32
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 87
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 83
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 26
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 28
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 32
+
+[day4.exs:20: Day4Pt1.process_file/1]
+Regex.scan(~r/\d+/, part) #=> [["87"], ["83"], ["26"], ["28"], ["32"]]
+|> List.flatten() #=> ["87", "83", "26", "28", "32"]
+|> Enum.map(fn x -> String.to_integer(x) |> dbg() end) #=> [87, 83, 26, 28, 32]
+
+88 30 70 12 93 22 82 36
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 88
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 30
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 70
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 12
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 93
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 22
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 82
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 36
+
+[day4.exs:20: Day4Pt1.process_file/1]
+Regex.scan(~r/\d+/, part) #=> [["88"], ["30"], ["70"], ["12"], ["93"], ["22"], ["82"], ["36"]]
+|> List.flatten() #=> ["88", "30", "70", "12", "93", "22", "82", "36"]
+|> Enum.map(fn x -> String.to_integer(x) |> dbg() end) #=> [88, 30, 70, 12, 93, 22, 82, 36]
+
+31 18 13 56 72
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 31
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 18
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 13
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 56
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 72
+
+[day4.exs:20: Day4Pt1.process_file/1]
+Regex.scan(~r/\d+/, part) #=> [["31"], ["18"], ["13"], ["56"], ["72"]]
+|> List.flatten() #=> ["31", "18", "13", "56", "72"]
+|> Enum.map(fn x -> String.to_integer(x) |> dbg() end) #=> [31, 18, 13, 56, 72]
+
+74 77 10 23 35 67 36 11
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 74
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 77
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 10
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 23
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 35
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 67
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 36
+
+[day4.exs:18: Day4Pt1.process_file/1]
+String.to_integer(x) #=> 11
+
+[day4.exs:20: Day4Pt1.process_file/1]
+Regex.scan(~r/\d+/, part) #=> [["74"], ["77"], ["10"], ["23"], ["35"], ["67"], ["36"], ["11"]]
+|> List.flatten() #=> ["74", "77", "10", "23", "35", "67", "36", "11"]
+|> Enum.map(fn x -> String.to_integer(x) |> dbg() end) #=> [74, 77, 10, 23, 35, 67, 36, 11]
+
+~c")\\ITE"

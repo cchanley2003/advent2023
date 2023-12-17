@@ -1,0 +1,19 @@
+Searching for 0 to 3
+Searching for 0 to 7
+Searching for 0 to 15
+Searching for 7 to 15
+Searching for 7 to 11
+Searching for 9 to 11
+[5, 9, 22]
+Searching for 15
+Searching for 0 to 3
+2
+Searching for 0 to 8
+Searching for 0 to 4
+Searching for 2 to 4
+4
+Searching for 0 to 15
+Searching for 7 to 15
+Searching for 7 to 11
+Searching for 9 to 11
+11

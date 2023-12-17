@@ -43,6 +43,7 @@ defmodule Day11 do
     y_dist = abs((y + yd) - (ny + nyd))
     x_dist + y_dist
   end
+  
   def all_combinations(list) do
     list
     |> Enum.with_index()
