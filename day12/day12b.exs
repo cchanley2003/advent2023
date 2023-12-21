@@ -26,7 +26,10 @@ defmodule Day12Final do
     |> Enum.sum()
     |> IO.inspect()
   end
+
+  # No streak and nothing left to look for
   defmemo count_options(rem, [], 0) do
+    # If we still have a spring, we can't have a match
     if Enum.any?(rem, fn x -> x == "#" end) do
       0
     else
@@ -34,11 +37,9 @@ defmodule Day12Final do
     end
   end
 
-  defmemo count_options(_, [], _) do
-    0
-  end
-
+  # We ran out of characters but have a streak going
   defmemo count_options([], [goal | rem], streak) do
+    # The final character ends the streak and handles the last goal
     if streak == goal and rem == [] do
       # IO.puts("We have a match")
       1
@@ -48,19 +49,19 @@ defmodule Day12Final do
     end
   end
 
+  # We have a spring up the streak
   defmemo count_options(["#" | tail], goal, streak) do
     count_options(tail, goal, streak + 1)
   end
 
+  # We have a dot. We need to end the streak and check for violations
   defmemo count_options(["." | tail], [goal | rem] = ag, streak) do
-    # IO.puts("We have a dot")
-    # dbg(state)
-    # dbg(ag)
-    # dbg(streak)
     cond do
       streak == 0 ->
+        # Just another dot, continue on
         count_options(tail, ag, 0)
       streak > 0 and streak == goal ->
+        # End the streak and shrink the goal list
         count_options(tail, rem, 0)
       true ->
         # IO.puts("We ended a streak without matching the goal")
@@ -68,11 +69,9 @@ defmodule Day12Final do
     end
   end
 
+  # Let us do both options
   defmemo count_options(["?" | rest], goal, streak) do
-    # IO.puts("We have a question mark")
-    # dbg(state)
-    # dbg(goal)
-    # dbg(streak)
+    # Replace the head of the stream with both options
     count_options(["#" | rest], goal, streak) + count_options(["." | rest], goal, streak)
   end
 end
