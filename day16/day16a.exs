@@ -1,4 +1,10 @@
 defmodule Day16 do
+
+  def convert_to_zero_or_one(x) do
+   if x == 0, do: 0, else: 1
+  end
+
+
   def process(path) do
     {grid, tiles} = File.stream!(path)
     |> Enum.with_index()
@@ -14,53 +20,103 @@ defmodule Day16 do
         end
       end)
     end)
-    |> IO.inspect()
+    # |> IO.inspect()
 
     maxes =
       Map.keys(grid)
       |> Enum.reduce({0, 0}, fn {x, y}, {max_x, max_y} ->
         {max(x, max_x), max(y, max_y)}
       end)
-    tile_set = MapSet.new(tiles)
 
     collect_spaces(grid, tiles, maxes)
+    # |> IO.inspect()
     |> Enum.map(fn l -> Enum.sort(l) end)
     |> Enum.uniq()
-    |> dbg()
-    |> Enum.map(fn [{x, y}, {x1, y1} | _] -> (x1 - x) + (y1 - y) + 1 end)
-    |> Enum.sum()
+    |> Enum.flat_map(fn [{x_start, y_start}, {x_end, y_end}]  ->
+      fill_until({x_start, y_start}, {x_end, y_end},
+      {convert_to_zero_or_one(x_end- x_start), convert_to_zero_or_one(y_end - y_start)})
+     end)
+    |> Enum.sort()
+    # |> IO.inspect()
+    |> MapSet.new()
+    |> MapSet.size()
     |> IO.inspect()
   end
 
+  def fill_until(start, finish, delta) do
+    fill_until(start, finish, delta, [])
+  end
+
+  def fill_until(start, finish, _, acc) when start == finish do
+    [finish | acc]
+  end
+
+  def fill_until({x_start, y_start} = start, finish, {x_delta, y_delta}, acc) do
+      next = {x_start + x_delta, y_start + y_delta}
+      fill_until(next, finish, {x_delta, y_delta}, [start | acc])
+  end
+
   def collect_spaces(grid, tiles, maxes) do
-    collect_spaces(grid, tiles, maxes, :east, {0, 0}, [])
+    collect_spaces(grid, tiles, maxes, [{:south, {0, 0}}], MapSet.new(), [])
   end
 
-  def collect_spaces(grid, tiles, maxes, dir, loc, acc) do
-    IO.inspect({dir, loc})
-    next = get_next(tiles, {dir, loc})
-    dbg(next)
-    if next == nil do
-      [[loc, get_edge(grid, dir, loc, maxes)] | acc]
-    else
-     get_directions(next, grid, dir)
-     |> Enum.reduce(acc, fn dir, acc ->
-       collect_spaces(grid, tiles, maxes, dir, next, [[loc, next] | acc])
-       |> dbg()
-     end)
-    end
+  def collect_spaces(_, _, _, [], _, acc) do
+    acc
   end
 
-  def get_edge(grid, dir, {x, y}, {max_x, max_y}) do
+  def collect_spaces(grid, tiles, maxes, level, seen, acc) do
+    # IO.inspect(level)
+    {nl, ns, a} =  Enum.reduce(level, {[], seen, acc}, fn {dir, loc}, {next_level, seen, acc} ->
+      next = get_next(tiles, {dir, loc})
+      next_seen = MapSet.put(seen, {dir, loc})
+      if next == nil do
+        edge = get_edge(dir, loc, maxes)
+        if edge == loc do
+          {next_level, next_seen, acc}
+        else
+          {next_level, next_seen, [[loc, edge] | acc]}
+        end
+      else
+        {iter_nl, na}  = get_directions(next, grid, dir)
+        |> Enum.reduce({next_level, acc}, fn d, {nl, a} -> {[{d, next}| nl], [[loc, next] | a]} end)
+        {Enum.reject(iter_nl, fn x -> MapSet.member?(seen, x) end), next_seen, na}
+      end
+    end)
+    collect_spaces(grid, tiles, maxes, nl, ns, a)
+  end
+
+  # def collect_spaces(grid, tiles, maxes, dir, loc, seen, acc) do
+  #   IO.inspect({dir, loc})
+  #   :ets.insert(@cache, {:key, "value"})
+  #   seen = MapSet.put(seen, {dir, loc})
+  #   next = get_next(tiles, {dir, loc})
+  #   IO.inspect(next)
+  #   if next == nil do
+  #     edge = get_edge(dir, loc, maxes)
+  #     if edge == loc do
+  #       acc
+  #     else
+  #       [[loc, edge] | acc]
+  #     end
+  #   else
+  #    get_directions(next, grid, dir)
+  #    |> Enum.reject(fn d -> MapSet.member?(seen, {d, next}) end)
+  #    |> Enum.reduce(acc, fn dir, acc ->
+  #      collect_spaces(grid, tiles, maxes, dir, next, seen, [[loc, next] | acc])
+  #    end)
+  #   end
+  # end
+
+  def get_edge(dir, {x, y}, {max_x, max_y}) do
     case dir do
       :east ->
-        {x, max_y}
-      :west ->
-        {x, 0}
-      :north ->
-        {0, y}
-      :south ->
         {max_x, y}
+      :west ->
+        {0, y}
+      :north ->
+        {x, 0}
+      :south ->
+        {x, max_y}
     end
   end
 
@@ -104,30 +160,29 @@ defmodule Day16 do
     case exit_dir do
       :east ->
         tiles
-        |> Enum.filter(fn {x, y} -> x == loc_x end)
-        |> IO.inspect()
+        |> Enum.filter(fn {_, y} -> y == loc_y end)
         |> Enum.sort()
-        |> Enum.find(fn {x, y} -> y > loc_y end)
+        |> Enum.find(fn {x, _} -> x > loc_x end)
       :west ->
         tiles
-        |> Enum.filter(fn {x, y} -> x == loc_x end)
+        |> Enum.filter(fn {_, y} -> y == loc_y end)
         |> Enum.sort()
         |> Enum.reverse()
-        |> Enum.find(fn {x, y} -> y < loc_y end)
+        |> Enum.find(fn {x, _} -> x < loc_x end)
       :north ->
         tiles
-        |> Enum.filter(fn {x, y} -> y == loc_y end)
+        |> Enum.filter(fn {x, _} -> x == loc_x end)
         |> Enum.sort()
         |> Enum.reverse()
-        |> Enum.find(fn {x, y} -> x < loc_x end)
+        |> Enum.find(fn {_, y} -> y < loc_y end)
       :south ->
         tiles
-        |> Enum.filter(fn {x, y} -> y == loc_y end)
+        |> Enum.filter(fn {x, _} -> x == loc_x end)
         |> Enum.sort()
-        |> Enum.find(fn {x, y} -> x > loc_x end)
+        |> Enum.find(fn {_, y} -> y > loc_y end)
     end
   end
 
 end
 
-Day16.process("sample.txt")
+Day16.process("real.txt")
