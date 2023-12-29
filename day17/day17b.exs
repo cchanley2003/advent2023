@@ -47,7 +47,7 @@ defmodule Day17 do
     {{heat, top}, rest} = Heap.split(queue)
     {dir, loc, run} = top
 
-    if loc == target do
+    if loc == target and run >= 4 do
       state[top]
     else
       next =
@@ -77,10 +77,10 @@ defmodule Day17 do
   def get_next(dir, loc, run) do
     turns = Enum.map(@turns[dir], fn d -> {d, advance(loc, d), 1} end)
 
-    if run < 3 do
-      [{dir, advance(loc, dir), run + 1} | turns]
-    else
-      turns
+    cond do
+      run < 4 ->   [{dir, advance(loc, dir), run + 1} ]
+      run < 10 ->  [{dir, advance(loc, dir), run + 1} | turns]
+      true -> turns
     end
   end
 
