@@ -4,7 +4,7 @@ defmodule Day19a do
   less_than = &(&1 < &2)
 
   def process(path) do
-    [rules, input] = File.read!(path)
+    [rules, _] = File.read!(path)
     |> String.split("\n\n")
     |> Enum.map(fn line ->
       String.split(line, "\n")
@@ -24,35 +24,9 @@ defmodule Day19a do
     |> Map.new()
     |> IO.inspect()
 
-    parsed_input = input
-    |> Enum.map(fn line ->
-      line
-      |> String.slice(1..-2)
-    end)
-    |> Enum.map(fn line ->
-      line
-      |> String.split(",")
-    end)
-    |> Enum.map(fn line ->
-      line
-      |> Enum.map(fn x ->
-        [var, num] = String.split(x, "=")
-        {var, String.to_integer(num)}
-      end)
-    end)
-    |> Enum.map(&Map.new/1)
-
-    # walk_rules(parsed_rules, hd(tl(parsed_input)))
-    Enum.map(parsed_input, fn i ->
-      walk_rules(parsed_rules, i)
-    end)
-    |> IO.inspect()
-    |> Enum.sum()
   end
 
-  def walk_rules(rules, i, rule_id) do
-    dbg(rule_id)
-    # dbg(rules)
+  def walk_rules(rules, next, rule_id) do
     rule = Map.get(rules, rule_id)
     case walk_rule(rule, i) do
       :accept -> i |> Map.values() |> Enum.sum()
@@ -61,8 +35,8 @@ defmodule Day19a do
     end
   end
 
-  def walk_rules(rules, i) do
-    walk_rules(rules, i,"in")
+  def walk_rules(rules) do
+    walk_rules(rules, [{{1, 4000}, {:dest, "in"}}] )
   end
 
   def walk_rule([{v, op, n, dest} | rules], i) do
