@@ -22,25 +22,48 @@ defmodule Day16 do
     end)
     # |> IO.inspect()
 
-    maxes =
+
+
+    {mx, my} = maxes =
       Map.keys(grid)
       |> Enum.reduce({0, 0}, fn {x, y}, {max_x, max_y} ->
         {max(x, max_x), max(y, max_y)}
       end)
 
-    collect_spaces(grid, tiles, maxes)
-    # |> IO.inspect()
-    |> Enum.map(fn l -> Enum.sort(l) end)
-    |> Enum.uniq()
-    |> Enum.flat_map(fn [{x_start, y_start}, {x_end, y_end}]  ->
-      fill_until({x_start, y_start}, {x_end, y_end},
-      {convert_to_zero_or_one(x_end- x_start), convert_to_zero_or_one(y_end - y_start)})
-     end)
-    |> Enum.sort()
-    # |> IO.inspect()
-    |> MapSet.new()
-    |> MapSet.size()
+    h_edges = 0..mx
+    |> Enum.flat_map(fn x -> [{:south, {x, 0}}, {:north, {x, my}}] end)
+
+    v_edges = 0..my
+    |> Enum.flat_map(fn y -> [{:east, {0, y}}, {:west, {mx, y}}] end)
+
+    edges = h_edges ++ v_edges
+    |> Enum.map(fn {d, l} = start ->
+      if grid[l] == "." do
+        start
+      else
+        get_directions(l, grid, d)
+        |> Enum.map(fn d -> {d, l} end)
+      end
+    end)
+    |> List.flatten()
+
+    Enum.map(edges, fn start ->
+      collect_spaces(grid, tiles, maxes, start)
+      # |> IO.inspect()
+      |> Enum.map(fn l -> Enum.sort(l) end)
+      |> Enum.uniq()
+      |> Enum.flat_map(fn [{x_start, y_start}, {x_end, y_end}]  ->
+        fill_until({x_start, y_start}, {x_end, y_end},
+        {convert_to_zero_or_one(x_end- x_start), convert_to_zero_or_one(y_end - y_start)})
+       end)
+      |> Enum.sort()
+      # |> IO.inspect()
+      |> MapSet.new()
+      |> MapSet.size()
+    end)
+    |> Enum.max()
     |> IO.inspect()
+
   end
 
   def fill_until(start, finish, delta) do
@@ -56,8 +79,8 @@ defmodule Day16 do
       fill_until(next, finish, {x_delta, y_delta}, [start | acc])
   end
 
-  def collect_spaces(grid, tiles, maxes) do
-    collect_spaces(grid, tiles, maxes, [{:south, {0, 0}}], MapSet.new(), [])
+  def collect_spaces(grid, tiles, maxes, start) do
+    collect_spaces(grid, tiles, maxes, [start], MapSet.new(), [])
   end
 
   def collect_spaces(_, _, _, [], _, acc) do
@@ -85,27 +108,6 @@ defmodule Day16 do
     collect_spaces(grid, tiles, maxes, nl, ns, a)
   end
 
-  # def collect_spaces(grid, tiles, maxes, dir, loc, seen, acc) do
-  #   IO.inspect({dir, loc})
-  #   :ets.insert(@cache, {:key, "value"})
-  #   seen = MapSet.put(seen, {dir, loc})
-  #   next = get_next(tiles, {dir, loc})
-  #   IO.inspect(next)
-  #   if next == nil do
-  #     edge = get_edge(dir, loc, maxes)
-  #     if edge == loc do
-  #       acc
-  #     else
-  #       [[loc, edge] | acc]
-  #     end
-  #   else
-  #    get_directions(next, grid, dir)
-  #    |> Enum.reject(fn d -> MapSet.member?(seen, {d, next}) end)
-  #    |> Enum.reduce(acc, fn dir, acc ->
-  #      collect_spaces(grid, tiles, maxes, dir, next, seen, [[loc, next] | acc])
-  #    end)
-  #   end
-  # end
 
   def get_edge(dir, {x, y}, {max_x, max_y}) do
     case dir do
@@ -185,4 +187,4 @@ defmodule Day16 do
 
 end
 
-Day16.process("sample.txt")
+Day16.process("real.txt")
