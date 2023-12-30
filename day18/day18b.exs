@@ -1,15 +1,19 @@
 defmodule Day18a do
 
+  @to_dir %{"0" => "R", "1" => "D", "2" => "L", "3" => "U"}
   @dirs %{"R" => {1, 0}, "L" => {-1, 0}, "U" => {0, -1}, "D" => {0, 1}}
 
   def process(path) do
     boundary = File.stream!(path)
     |> Enum.map(fn line ->
-      line
+      res = line
       |> String.trim()
       |> String.split(" ")
+      |> List.last()
+      {String.at(res, -2), String.slice(res, 2..-3)}
     end)
-    |> Enum.map(fn [x, y | _] -> {x, String.to_integer(y)}    end)
+    |> Enum.map(fn {x, y} -> {@to_dir[x], String.to_integer(y, 16)}    end)
+    |> IO.inspect()
 
     dis = boundary
     |> Enum.reduce(0, fn {dir, steps}, acc ->
