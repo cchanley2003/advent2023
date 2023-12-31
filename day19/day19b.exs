@@ -1,7 +1,22 @@
 defmodule Day19a do
 
-  greater_than = &(&1 > &2)
-  less_than = &(&1 < &2)
+  def greater_than(input, var, num) do
+    {start, finish} = Map.get(input, var)
+    # split range via num
+    cond do
+      start <= num and finish > num -> [Map.put(input, var, {num + 1, finish}), Map.put(input, var, {start, num})]
+      true -> [nil, input]
+    end
+  end
+
+  def less_than(input, var, num) do
+    {start, finish} = Map.get(input, var)
+    # split range via num
+    cond do
+      start < num and finish >= num -> [Map.put(input, var, {start, num - 1}), Map.put(input, var, {num, finish})]
+      true -> [nil, input]
+    end
+  end
 
   def process(path) do
     [rules, _] = File.read!(path)
@@ -24,31 +39,54 @@ defmodule Day19a do
     |> Map.new()
     |> IO.inspect()
 
+    walk_rules(parsed_rules)
+
   end
 
-  def walk_rules(rules, next, rule_id) do
-    rule = Map.get(rules, rule_id)
-    case walk_rule(rule, i) do
-      :accept -> i |> Map.values() |> Enum.sum()
-      :reject -> 0
-      {:dest, dest} -> walk_rules(rules, i, dest)
-    end
+  def walk_rules(rules, next, acc) do
+    IO.inspect(next)
+    Enum.reduce(next, acc, fn {i, dest}, acc ->
+      case dest do
+        :accept ->
+          sum = i
+          |> Map.values()
+          |> Enum.map(fn {s, f} -> f - s + 1 end)
+          |> Enum.sum()
+          acc + sum
+        :reject -> acc
+        {:dest, dest} ->
+          next = get_next(rules, dest, i)
+          acc + walk_rules(rules, next, acc)
+      end
+    end)
   end
 
   def walk_rules(rules) do
-    walk_rules(rules, [{{1, 4000}, {:dest, "in"}}] )
+    walk_rules(rules, [{%{"x" => {1, 4000},
+                          "m" => {1, 4000},
+                          "a" => {1, 4000},
+                          "s" => {1, 4000},
+                         },
+                        {:dest, "in"}}], 0)
   end
 
-  def walk_rule([{v, op, n, dest} | rules], i) do
-    lookup = Map.get(i, v)
-    cond do
-      op.(lookup, n) -> dest
-      true -> walk_rule(rules, i)
+  def get_next(rules, dest, input) do
+    rule = Map.get(rules, dest)
+    get_next_for_rule(rule, input, [])
+  end
+
+  def get_next_for_rule([{arg, func, val, dest} | rest], input, acc) do
+    [match, no_match] = func.(input, arg, val)
+    acc = if match do
+      [{match, dest} | acc]
+    else
+      acc
     end
+    get_next_for_rule(rest, no_match, acc)
   end
 
-  def walk_rule([rule], _) do
-    rule
+  def get_next_for_rule([dest], input, acc) do
+    [{input, dest} | acc]
   end
 
   def convert(str) do
@@ -65,13 +103,13 @@ defmodule Day19a do
     dest = convert(dest)
     if String.contains?(check, "<") do
       [arg, val] = String.split(check, "<")
-      {arg, &(&1 < &2), String.to_integer(val), dest}
+      {arg, &less_than/3, String.to_integer(val), dest}
     else
       [arg, val] = String.split(check, ">")
-      {arg, &(&1 > &2), String.to_integer(val), dest}
+      {arg, &greater_than/3, String.to_integer(val), dest}
     end
   end
 end
 
-Day19a.process("real.txt")
+Day19a.process("sample.txt")
 |> IO.inspect()
