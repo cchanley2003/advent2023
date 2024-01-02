@@ -43,22 +43,23 @@ defmodule Day19a do
 
   end
 
-  def walk_rules(rules, next, acc) do
+  def walk_rules(rules, next) do
     IO.inspect(next)
-    Enum.reduce(next, acc, fn {i, dest}, acc ->
+    Enum.map(next,fn {i, dest}->
       case dest do
         :accept ->
           sum = i
           |> Map.values()
           |> Enum.map(fn {s, f} -> f - s + 1 end)
-          |> Enum.sum()
-          acc + sum
-        :reject -> acc
+          |> Enum.reduce(1, &Kernel.*(&1, &2))
+          sum
+        :reject -> 0
         {:dest, dest} ->
           next = get_next(rules, dest, i)
-          acc + walk_rules(rules, next, acc)
+          walk_rules(rules, next)
       end
     end)
+    |> Enum.sum()
   end
 
   def walk_rules(rules) do
@@ -67,10 +68,13 @@ defmodule Day19a do
                           "a" => {1, 4000},
                           "s" => {1, 4000},
                          },
-                        {:dest, "in"}}], 0)
+                        {:dest, "in"}}])
   end
 
   def get_next(rules, dest, input) do
+    IO.puts("handling rule #{dest}")
+    IO.inspect(input)
+    IO.inspect(rules)
     rule = Map.get(rules, dest)
     get_next_for_rule(rule, input, [])
   end
@@ -111,5 +115,5 @@ defmodule Day19a do
   end
 end
 
-Day19a.process("sample.txt")
+Day19a.process("real.txt")
 |> IO.inspect()
