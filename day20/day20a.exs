@@ -21,11 +21,24 @@ defmodule Day20a do
     con_state = parsed
     |> Enum.filter(fn {_, {type, _}} -> type == :conjunction end)
     |> Enum.map(fn {val, {_, _}} -> {val, get_connections(parsed, val) |> Enum.map(fn c -> {c, :low} end) |> Map.new()}  end)
+    |> Map.new()
     |> IO.inspect()
 
     start = hd(Enum.filter(parsed, fn {_, {type, _}} -> type == :start end))
 
-    fire_pulses(parsed, start_pulses(parsed, start), {ff_state, con_state})
+    counts = %{:high => 0, :low => 1}
+
+    # fire_pulses(parsed, start_pulses(parsed, start), {ff_state, con_state})
+    run(parsed, {start_pulses(parsed, start), {ff_state, con_state}}, counts)
+  end
+
+  def run(_, {[], _}, counts) do
+    Map.values(counts) |> Enum.sum()
+  end
+  def run(routes, {pulses, state}, counts) do
+    {p, s, counts} = fire_pulses(routes, pulses, state, counts)
+    |> IO.inspect()
+    run(routes, {p, s}, counts)
   end
 
   def start_pulses(parsed, start) do
@@ -35,29 +48,39 @@ defmodule Day20a do
     |> Enum.map(fn c -> {s, :low, c} end)
   end
 
-  def fire_pulses(routes, pulses, states) do
+  def fire_pulses(routes, pulses, states, counts) do
     dbg(pulses)
-    Enum.reduce(pulses, {[], states}, fn pulse, {l, sa} ->
-      {{dest, pulse}, cs} = fire_pulse(pulse, sa)
-      {_, conections} = Map.get(routes, dest)
-      res = conections
-      |> Enum.map(fn c -> {dest, pulse, c} end)
-      {l ++ res, cs}
+    Enum.reduce(pulses, {[], states, counts}, fn pulse, {l, sa, uc} ->
+       {_, pt, _} = pulse
+       uc = Map.update!(uc, pt, fn v -> v + 1 end)
+       case fire_pulse(pulse, sa) do
+        {{dest, pulse}, cs} ->
+          if not(Map.has_key?(routes, dest)) do
+            {l, cs, uc}
+          else
+            {_, conections} = Map.get(routes, dest)
+            |> IO.inspect()
+            res = conections
+            |> Enum.map(fn c -> {dest, pulse, c} end)
+            {l ++ res, cs, uc}
+          end
+        {nil, cs} -> {l, cs, uc}
+       end
     end)
   end
 
-  def fire_pulse({src, pulse_type, dest}, {ff_state, _} = states) do
-    if Map.has_key?(ff_state, dest) do
-      handle_flipflop(pulse_type, dest, states)
-    else
-      handle_conjunction(pulse_type, dest, states)
-    end
+  def fire_pulse({src, pulse_type, dest}, {ff_state, con_state} = states) do
 
+    cond do
+      Map.has_key?(ff_state, dest) -> handle_flipflop(pulse_type, dest, states)
+      Map.has_key?(con_state, dest) -> handle_conjunction(pulse_type, dest, states)
+      true -> {nil, states}
+    end
   end
 
   def handle_flipflop(pulse_type, dest, {ff_state, con} = states) do
     if pulse_type == :high do
-      {[], states}
+      {nil, states}
     else
       cur_state = Map.get(ff_state, dest)
       case cur_state do
@@ -67,7 +90,7 @@ defmodule Day20a do
     end
   end
 
-  def handle_conjunction(pulse_type, dest, {ff_state, cons_state}) do
+  def handle_conjunction(pulse_type, dest, {ff_state, con_state}) do
     updated = Map.put(con_state, dest, pulse_type)
     if Map.values(updated) |> Enum.all?(fn v -> v == :high end) do
       {{dest, :low}, {ff_state, updated}}
