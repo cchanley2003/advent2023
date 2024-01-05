@@ -15,7 +15,6 @@ defmodule Day20a do
     |> Enum.filter(fn {_, {type, _}} -> type == :flipflop end)
     |> Enum.map(fn {val, _} -> {val, :off} end)
     |> Map.new()
-    |> IO.inspect()
 
     con_state = parsed
     |> Enum.filter(fn {_, {type, _}} -> type == :conjunction end)
@@ -27,50 +26,64 @@ defmodule Day20a do
 
     counts = %{:high => 0, :low => 0}
 
-    states = {ff_state, con_state}
+    cycle_states = parsed
+    |> Enum.filter(fn {_, {_, cons}} -> Enum.member?(cons, "kh") end)
+    |> Enum.map(fn {v, _} -> v end)
 
-    res = 1..1000
-    |> Enum.reduce({counts, states}, fn _, {c, s} ->
-      run(parsed, {start_pulses(parsed, start), s}, c)
-    end)
-    |> IO.inspect()
+    dbg(cycle_states)
 
-    {final_counts, _} = res
-    dbg(final_counts[:high] * (final_counts[:low] + 1000))
-    # fire_pulses(parsed, start_pulses(parsed, start), {ff_state, con_state})
-    # run(parsed, {start_pulses(parsed, start), {ff_state, con_state}}, counts)
+    sample = hd(cycle_states)
+
+    run(parsed, {start_pulses(start), {ff_state, con_state}}, [])
+
+    cycle_states
+    |> Enum.map(fn s -> high_pulse_emitted(s, parsed, start_pulses(start), {ff_state, con_state}, 0) end)
+    |> Enum.map(fn {c, _} -> c end)
+    |> Enum.reduce(fn c, acc -> lcm(c, acc) end)
+
   end
 
-  def run(_, {[],states}, counts) do
-    {counts, states}
-  end
-  def run(routes, {pulses, state}, counts) do
-    {p, s, counts} = fire_pulses(routes, pulses, state, counts)
-    run(routes, {p, s}, counts)
+  def lcm(a, b) do
+    trunc(a * b / Integer.gcd(a, b))
   end
 
-  def start_pulses(parsed, start) do
+  def run(_, {[],states}, fired) do
+    {fired, states}
+  end
+  def run(routes, {pulses, state}, fired) do
+    {p, s} = fire_pulses(routes, pulses, state)
+    run(routes, {p, s}, p ++ fired)
+  end
+
+  def high_pulse_emitted(module, routes, pulses, states, count) do
+    {fired, ns} = run(routes, {pulses, states}, [])
+    if Enum.any?(fired, fn {src, pt, _} -> src == module and pt == :high end) do
+      {count + 1, ns}
+    else
+      high_pulse_emitted(module, routes, pulses, ns, count + 1)
+    end
+  end
+
+  def start_pulses(start) do
     {s, {_, connections}} = start
-    pulses = connections
+    connections
     |> Enum.map(fn c -> {s, :low, c} end)
   end
 
-  def fire_pulses(routes, pulses, states, counts) do
-    dbg(pulses)
-    Enum.reduce(pulses, {[], states, counts}, fn pulse, {l, sa, uc} ->
+  def fire_pulses(routes, pulses, states) do
+    Enum.reduce(pulses, {[], states}, fn pulse, {l, sa} ->
        {_, pt, _} = pulse
-       uc = Map.update!(uc, pt, fn v -> v + 1 end)
        case fire_pulse(pulse, sa) do
         {{dest, pulse}, cs} ->
           if not(Map.has_key?(routes, dest)) do
-            {l, cs, uc}
+            {l, cs}
           else
             {_, conections} = Map.get(routes, dest)
             res = conections
             |> Enum.map(fn c -> {dest, pulse, c} end)
-            {res ++ l, cs, uc}
+            {res ++ l, cs}
           end
-        {nil, cs} -> {l, cs, uc}
+        {nil, cs} -> {l, cs}
        end
     end)
   end
@@ -96,7 +109,6 @@ defmodule Day20a do
   end
 
   def handle_conjunction(pulse_type, src, dest, {ff_state, con_state}) do
-    IO.puts("Handling conjunction")
     in_state = Map.get(con_state, dest) |> Map.put(src, pulse_type)
     updated = Map.put(con_state, dest, in_state)
     if Map.values(in_state) |> Enum.all?(fn v -> v == :high end) do
@@ -104,13 +116,12 @@ defmodule Day20a do
     else
       {{dest, :high}, {ff_state, updated}}
     end
-
   end
 
   def get_connections(parsed, val) do
     parsed
-    |> Enum.filter(fn {v, {_, cons}} -> Enum.member?(cons, val) end)
-    |> Enum.map(fn {v, {_, cons}} -> v end)
+    |> Enum.filter(fn {_, {_, cons}} -> Enum.member?(cons, val) end)
+    |> Enum.map(fn {v, {_, _}} -> v end)
   end
 
   def get_type(str) do
