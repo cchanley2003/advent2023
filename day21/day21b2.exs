@@ -16,18 +16,36 @@ defmodule Day21a do
     |> Enum.filter(fn {_, c} -> c == "S" end)
     |> hd()
 
-    walk(grid, [{start, 0}], 64, 0, [], MapSet.new())
-    |> IO.inspect()
+   visited =  walk(grid, [{start, 0}], 0, [], MapSet.new())
+
+   even = visited
     |> Enum.filter(fn {_, s} -> rem(s, 2) == 0 end)
-    |> IO.inspect()
     |> length()
+
+    odd = visited
+    |> Enum.filter(fn {_, s} -> rem(s, 2) == 1 end)
+    |> length()
+
+    odd_corner = visited
+    |> Enum.filter(fn {_, s} -> rem(s, 2) == 1 end)
+    |> Enum.filter(fn {_, s} -> s > 65 end)
+    |> length()
+
+    even_corner = visited
+    |> Enum.filter(fn {_, s} -> rem(s, 2) == 0 end)
+    |> Enum.filter(fn {_, s} -> s > 65 end)
+    |> length()
+
+    n = 202300
+    (n + 1) * (n + 1) * odd + (n * n) * even - (n + 1) * odd_corner + n * even_corner
+
   end
 
-  def walk(_, _, goal, step, visited, seen) when goal == step do
+  def walk(_, [], step, visited, seen) do
     visited
   end
 
-  def walk(grid, locs, goal, step, visited, seen) do
+  def walk(grid, locs, step, visited, seen) do
     IO.puts("Looking at step #{step} with #{length(locs)} locations")
     dbg(locs)
 
@@ -47,7 +65,7 @@ defmodule Day21a do
     #   |> Enum.reject(fn x -> MapSet.member?(seen, x) end)
     #   |> Enum.map(fn l -> {l, step + 1} end)
     # end)
-    walk(grid, next, goal, step + 1, visited ++ next, seen)
+    walk(grid, next, step + 1, visited ++ next, seen)
   end
 
   def get_next(grid, {x, y}) do
