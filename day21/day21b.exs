@@ -27,8 +27,8 @@ defmodule Day21a do
 
     list_of_lists = delta_all_lists(list, [list])
 
-    numStepCycles = trunc((26501365 - 65) / 131)
-    get_count(list_of_lists, numStepCycles)
+    # numStepCycles = trunc((26501365 - 65) / 131)
+    # get_count(list_of_lists, numStepCycles)
 
 
     # my $dsize = 2 × $!width;
