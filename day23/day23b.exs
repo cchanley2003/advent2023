@@ -44,9 +44,6 @@ defmodule Day23 do
 
   end
 
-
-
-
   def compact_graph(graph) do
     twos = graph
     |> Enum.filter(fn {_, v} -> length(v) == 2 end)
