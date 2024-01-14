@@ -14,6 +14,7 @@ defmodule Day22 do
       |> Enum.map(fn x -> Enum.map(x, &List.to_tuple/1) end)
 
     build_pile(bricks)
+    |> IO.inspect()
     |> count_disintegrates()
   end
 
@@ -22,7 +23,6 @@ defmodule Day22 do
   end
 
   def build_pile([], {topo_map, sand_map}) do
-    dbg(topo_map[{1, 1}])
     sand_map
   end
 
@@ -96,5 +96,5 @@ defmodule Day22 do
   end
 end
 
-Day22.process("real.txt")
+Day22.process("sample.txt")
 |> IO.inspect()

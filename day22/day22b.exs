@@ -13,8 +13,61 @@ defmodule Day22 do
       |> Enum.sort(fn a, b -> List.last(List.last(a)) < List.last(List.last(b)) end)
       |> Enum.map(fn x -> Enum.map(x, &List.to_tuple/1) end)
 
-    build_pile(bricks)
-    |> count_disintegrates()
+    pile = build_pile(bricks)
+    dbg(pile)
+    bricks = Map.values(pile) |> Enum.uniq()
+    cascade_effect(bricks, pile)
+  end
+
+  def cascade_effect(bricks, pile) do
+    cascade_effect(bricks, pile,  0)
+  end
+
+  def cascade_effect([], pile, acc) do
+    acc
+  end
+
+  def cascade_effect([brick | rest], pile, acc) do
+    # IO.puts("Impact")
+
+    # dbg(brick)
+    impact = dis_impact(brick, pile)
+    # dbg(impact)
+    cascade_effect(rest, pile, acc + impact)
+  end
+
+  def dis_impact([], pile, acc) do
+    MapSet.size(acc) - 1
+  end
+
+  def dis_impact(brick, sand_pile) do
+    bricks = [brick]
+    dis_impact(bricks, sand_pile, MapSet.new(bricks))
+  end
+
+  def dis_impact([brick | rest], pile, fallen) do
+    # dbg(brick)
+    above =
+      Enum.filter(brick, fn {x, y, z} -> Map.has_key?(pile, {x, y, z + 1}) end)
+      # |> IO.inspect()
+      |> Enum.map(fn  {x, y, z} -> Map.get(pile, {x, y, z + 1}) end)
+      |> Enum.uniq()
+      |> Enum.filter(fn x -> x != brick end)
+
+      # dbg(above)
+
+      next = above
+      |> Enum.filter(fn b -> MapSet.new(bricks_below(b, pile)) |> MapSet.difference(fallen) |> MapSet.size() == 0 end)
+      # dbg(next)
+      dis_impact(next ++ rest, pile, MapSet.union(fallen, MapSet.new(next)))
+  end
+
+  def bricks_below(brick, pile) do
+    Enum.map(brick, fn {x, y, z} -> Map.get(pile, {x, y, z - 1}) end)
+    |> Enum.filter(fn x -> x != nil end)
+    |> Enum.uniq()
+    |> Enum.filter(fn x -> x != brick end)
+    # |> IO.inspect()
   end
 
   def build_pile(bricks) do
@@ -22,7 +75,6 @@ defmodule Day22 do
   end
 
   def build_pile([], {topo_map, sand_map}) do
-    dbg(topo_map[{1, 1}])
     sand_map
   end
 
@@ -40,38 +92,6 @@ defmodule Day22 do
     build_pile(rest, {topo_map, sand_map})
   end
 
-  def count_disintegrates(sand_map) do
-    Map.values(sand_map)
-    |> Enum.uniq()
-    |> Enum.reduce(0, fn brick, acc ->
-      if can_disintegrate(sand_map, brick) do
-        1 + acc
-      else
-        acc
-      end
-    end)
-  end
-
-  def can_disintegrate(sand_map, brick) do
-    above =
-      Enum.filter(brick, fn {x, y, z} -> Map.has_key?(sand_map, {x, y, z + 1}) end)
-      |> Enum.map(fn  {x, y, z} -> Map.get(sand_map, {x, y, z + 1}) end)
-      |> Enum.uniq()
-      |> Enum.filter(fn x -> x != brick end)
-
-    held =
-      above
-      |> Enum.filter(fn above_brick ->
-        Enum.any?(above_brick, fn {x, y, z} ->
-          step_down = {x, y, z - 1}
-          down_brick = Map.get(sand_map, step_down)
-          down_brick != nil and down_brick != above_brick and down_brick != brick
-        end)
-      end)
-
-
-    held == above or above == []
-  end
 
   def to_int_list(str) do
     String.split(str, ",")
